@@ -7,7 +7,14 @@ from datetime import datetime, timedelta
 import numpy as np
 from matplotlib import pyplot as plt
 import copy
+
+
+#Get todays time
 today = datetime.now()
+
+#Calculates 10 days ago
+ten_days_ago = today - timedelta(days=15)
+
 myticker = ["MSFT", "AAPL", "NVDA", "GME", "LMT"]
 
 mydata = {}
@@ -31,6 +38,7 @@ for ticker in myticker:
         plt.axis((9, 0, min_price, max_price))
         plt.title(f'{ticker} Last 10 Closing Prices')
         plt.show()
+        #plt.savefig(f'charts/{ticker}.png')
 
 else:
     print(f'Do not have ')
