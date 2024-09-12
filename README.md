@@ -43,7 +43,8 @@ command to run if program contains helper info
 
 Contributors names and contact info
 
-ex. Jason Zeller
+Cooper Weinhold
+cjweinhold@mail.fhsu.edu
 
 
 ## Acknowledgments

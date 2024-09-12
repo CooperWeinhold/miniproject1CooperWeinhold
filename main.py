@@ -3,6 +3,11 @@
 ### Miniproject 1
 import pprint
 import yfinance as yf
+from datetime import datetime, timedelta
+import numpy as np
+from matplotlib import pyplot as plt
+import copy
+today = datetime.now()
 myticker = ["MSFT", "AAPL", "NVDA", "GME", "LMT"]
 
 mydata = {}
@@ -10,10 +15,26 @@ mydata = {}
 myticker.sort()
 for ticker in myticker:
     result = yf.Ticker(ticker)
-    mydata[ticker] = {'ticker': ticker,
-                      'dayHigh': result.info['dayHigh']}
+    hist = result.history(start=ten_days_ago, end=today)
+    last10days = []
+    for date in hist['Close'][:11]:
+        last10days.append(date)
+    if len(last10days) == 10:
+        maxlist = copy.copy(last10days)
+        maxlist.sort()
+        max_price = maxlist[-1]+10
+        min_price = maxlist[-1]-10
+        myarray = np.array(last10days)
+        plt.plot(myarray)
+        plt.xlabel('Days Ago')
+        plt.ylabel('Closing Price')
+        plt.axis((9, 0, min_price, max_price))
+        plt.title(f'{ticker} Last 10 Closing Prices')
+        plt.show()
 
-pprint.pprint(mydata)
+else:
+    print(f'Do not have ')
+
 
 #aapl = yf.Ticker("AAPL")
 
