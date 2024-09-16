@@ -1,13 +1,14 @@
 ### INF601 - Advanced Programming in Python
 ### Cooper Weinhold
 ### Miniproject 1
-import pprint
+
 import yfinance as yf
 from datetime import datetime, timedelta
 import numpy as np
 from matplotlib import pyplot as plt
-import copy
+import os
 
+os.makedirs("charts", exist_ok=True)
 
 #Get todays time
 today = datetime.now()
@@ -15,41 +16,25 @@ today = datetime.now()
 #Calculates 10 days ago
 ten_days_ago = today - timedelta(days=15)
 
-myticker = ["MSFT", "AAPL", "NVDA", "GME", "LMT"]
+myTickers = ["TXT", "BA", "TSLA", "OKE", "LMT"]
 
-mydata = {}
-
-myticker.sort()
-for ticker in myticker:
+for ticker in myTickers:
     result = yf.Ticker(ticker)
     hist = result.history(start=ten_days_ago, end=today)
     last10days = []
     for date in hist['Close'][:11]:
         last10days.append(date)
     if len(last10days) == 10:
-        maxlist = copy.copy(last10days)
-        maxlist.sort()
-        max_price = maxlist[-1]+10
-        min_price = maxlist[-1]-10
         myarray = np.array(last10days)
+        max_price = myarray.max() + (myarray.max() * .05)
+        min_price = myarray.min() - (myarray.min() * .05)
         plt.plot(myarray)
         plt.xlabel('Days Ago')
         plt.ylabel('Closing Price')
         plt.axis((9, 0, min_price, max_price))
         plt.title(f'{ticker} Last 10 Closing Prices')
-        plt.show()
-        #plt.savefig(f'charts/{ticker}.png')
+        #plt.show()
+        plt.savefig(f'charts/{ticker}.png')
 
 else:
-    print(f'Do not have ')
-
-
-#aapl = yf.Ticker("AAPL")
-
-# get all stock info
-#pprint.pprint(msft.info)
-
-# get historical market data
-#hist = msft.history(period="1mo")
-
-#pprint.pprint(hist)
+    print(f'Do not have last 10 days ')
